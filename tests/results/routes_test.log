@@ -1,0 +1,25 @@
+
+   ReflectionException 
+
+  Class "App\Http\Controllers\Admin\DashboardController" does not exist
+
+  at vendor/laravel/framework/src/Illuminate/Foundation/Console/RouteListCommand.php:225
+    221▕             if ($this->isFrameworkController($route)) {
+    222▕                 return false;
+    223▕             }
+    224▕ 
+  ➜ 225▕             $path = (new ReflectionClass($route->getControllerClass()))
+    226▕                                 ->getFileName();
+    227▕         } else {
+    228▕             return false;
+    229▕         }
+
+      [2m+3 vendor frames [22m
+
+  4   [internal]:0
+      Illuminate\Foundation\Console\RouteListCommand::Illuminate\Foundation\Console\{closure}()
+      [2m+16 vendor frames [22m
+
+  21  artisan:37
+      Illuminate\Foundation\Console\Kernel::handle()
+

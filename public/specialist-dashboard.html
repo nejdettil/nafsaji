@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم المختص - نفسجي للتمكين النفسي</title>
+    <!-- Bootstrap RTL CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Tajawal -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #6a4c93;
+            --secondary-color: #8ac4d0;
+            --accent-color: #ffd166;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --dark-bg: #343a40;
+            --sidebar-width: 280px;
+        }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            min-height: 100vh;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #5a3d83;
+            border-color: #5a3d83;
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background-color: white;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: all 0.3s;
+            overflow-y: auto;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .sidebar-logo {
+            max-height: 50px;
+        }
+        
+        .sidebar-menu {
+            padding: 0;
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+        
+        .sidebar-menu li a {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-right: 3px solid transparent;
+        }
+        
+        .sidebar-menu li a:hover, .sidebar-menu li a.active {
+            background-color: var(--light-bg);
+            border-right-color: var(--primary-color);
+        }
+        
+        .sidebar-menu li a i {
+            margin-left: 10px;
+            color: var(--primary-color);
+        }
+        
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            margin-right: var(--sidebar-width);
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        .page-header {
+            margin-bottom: 30px;
+        }
+        
+        .page-header h1 {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-weight: bold;
+        }
+        
+        .stat-card {
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card .icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+        
+        .stat-card .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: var(--primary-color);
+        }
+        
+        .stat-card .stat-label {
+            color: #777;
+            font-size: 1rem;
+        }
+        
+        .appointment-card {
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .appointment-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .appointment-card .client-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .appointment-card .appointment-date {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .appointment-card .appointment-status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .status-confirmed {
+            background-color: rgba(25, 135, 84, 0.1);
+            color: #198754;
+        }
+        
+        .status-pending {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+        }
+        
+        .status-completed {
+            background-color: rgba(13, 110, 253, 0.1);
+            color: #0d6efd;
+        }
+        
+        .status-cancelled {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+        
+        .profile-card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .profile-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        
+        .profile-body {
+            padding: 20px;
+        }
+        
+        .profile-info {
+            margin-bottom: 20px;
+        }
+        
+        .profile-info .label {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .calendar-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .calendar-nav {
+            display: flex;
+            align-items: center;
+        }
+        
+        .calendar-nav button {
+            background-color: transparent;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+        
+        .calendar-title {
+            font-weight: bold;
+            margin: 0 15px;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+        
+        .calendar-day-header {
+            text-align: center;
+            font-weight: bold;
+            color: var(--primary-color);
+            padding: 10px 0;
+        }
+        
+        .calendar-day {
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 10px;
+            min-height: 100px;
+            position: relative;
+        }
+        
+        .calendar-day.today {
+            background-color: rgba(106, 76, 147, 0.05);
+            border-color: var(--primary-color);
+        }
+        
+        .calendar-day.other-month {
+            background-color: #f9f9f9;
+            color: #aaa;
+        }
+        
+        .calendar-day-number {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .today .calendar-day-number {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+        }
+        
+        .calendar-event {
+            background-color: rgba(106, 76, 147, 0.1);
+            border-left: 3px solid var(--primary-color);
+            padding: 5px;
+            margin-top: 5px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .calendar-event.confirmed {
+            background-color: rgba(25, 135, 84, 0.1);
+            border-left-color: #198754;
+        }
+        
+        .calendar-event.pending {
+            background-color: rgba(255, 193, 7, 0.1);
+            border-left-color: #ffc107;
+        }
+        
+        /* Responsive Sidebar */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-right: 0;
+            }
+            
+            .sidebar-toggle {
+                display: block;
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 1100;
+                background-color: var(--primary-color);
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 45px;
+                height: 45px;
+                text-align: center;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .calendar-grid {
+                grid-template-columns: repeat(1, 1fr);
+            }
+            
+            .calendar-day-header {
+                display: none;
+            }
+            
+            .calendar-day {
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .calendar-day-number {
+                position: relative;
+                top: 0;
+                right: 0;
+                width: auto;
+                height: auto;
+                margin-bottom: 10px;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .sidebar-toggle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Toggle Button (Mobile) -->
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="assets/images/logo-white.png" alt="نفسجي" class="sidebar-logo">
+            <h5 class="mt-3 mb-0">مرحباً، د. سارة أحمد</h5>
+        </div>
+        <ul class="sidebar-menu mt-4">
+            <li>
+                <a href="#" class="active">
+                    <i class="fas fa-home"></i>
+                    الرئيسية
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-calendar-alt"></i>
+                    جدول المواعيد
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-users"></i>
+                    العملاء
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-video"></i>
+                    الجلسات
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-clipboard-list"></i>
+                    الخدمات
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-credit-card"></i>
+                    المدفوعات
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-user"></i>
+                    الملف الشخصي
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-cog"></i>
+                    الإعدادات
+                </a>
+            </li>
+            <li>
+                <a href="index.html">
+                    <i class="fas fa-sign-out-alt"></i>
+                    تسجيل الخروج
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <p class="mb-0 text-muted">نفسجي للتمكين النفسي &copy; 2025</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1>لوحة التحكم</h1>
+            <p class="text-muted">مرحباً بك في لوحة تحكم المختص، يمكنك إدارة جلساتك ومواعيدك من هنا</p>
+        </div>
+        
+        <!-- Stats Row -->
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card text-center">
+                    <div class="icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-value">24</div>
+                    <div class="stat-label">الجلسات المكتملة</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card text-center">
+                    <div class="icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-value">18</div>
+                    <div class="stat-label">العملاء النشطين</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card text-center">
+                    <div class="icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="stat-value">5,400</div>
+                    <div class="stat-label">الدخل الشهري (ر.س)</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card text-center">
+                    <div class="icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-value">4.9</div>
+                    <div class="stat-label">متوسط التقييم</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Today's Schedule -->
+        <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">جدول اليوم</h5>
+                <div>
+                    <span class="text-muted">22 أبريل 2025</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="appointment-card">
+                    <div class="row align-items-center">
+                        <div class="col-md-1 col-sm-2 mb-3 mb-md-0">
+                            <img src="assets/images/client1.jpg" alt="أحمد محمد" class="client-img">
+                        </div>
+                        <div class="col-md-3 col-sm-4 mb-3 mb-md-0">
+                            <h6 class="mb-1">أحمد محمد</h6>
+                            <p class="mb-0 text-muted small">جلسة استشارية</p>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3 mb-md-0">
+                            <div class="appointment-date">
+                                <i class="far fa-clock me-1"></i> 10:00 صباحاً - 11:00 صباحاً
+                            </div>
+                            <div class="text-muted small">
+                                <i class="fas fa-video me-1"></i> جلسة عبر الإنترنت
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-6 mb-3 mb-md-0">
+                            <span class="appointment-status status-confirmed">مؤكد</span>
+                        </div>
+                        <div class="col-md-3 text-md-end mt-3 mt-md-0">
+                            <a href="#" class="btn btn-sm btn-outline-primary me-2">ملاحظات</a>
+                            <a href="#" class="btn btn-sm btn-primary">بدء الجلسة</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="appointment-card">
+                    <div class="row align-items-center">
+                        <div class="col-md-1 col-sm-2 mb-3 mb-md-0">
+                            <img src="assets/images/client2.jpg" alt="سمر علي" class="client-img">
+                        </div>
+                        <div class="col-md-3 col-sm-4 mb-3 mb-md-0">
+                            <h6 class="mb-1">سمر علي</h6>
+                            <p class="mb-0 text-muted small">جلسة علاجية</p>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3 mb-md-0">
+                            <div class="appointment-date">
+                                <i class="far fa-clock me-1"></i> 2:30 مساءً - 3:30 مساءً
+                            </div>
+                            <div class="text-muted small">
+                                <i class="fas fa-video me-1"></i> جلسة عبر الإنترنت
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-6 mb-3 mb-md-0">
+                            <span class="appointment-status status-confirmed">مؤكد</span>
+                        </div>
+                        <div class="col-md-3 text-md-end mt-3 mt-md-0">
+                            <a href="#" class="btn btn-sm btn-outline-primary me-2">ملاحظات</a>
+                            <a href="#" class="btn btn-sm btn-primary">بدء الجلسة</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="appointment-card">
+                    <div class="row align-items-center">
+                        <div class="col-md-1 col-sm-2 mb-3 mb-md-0">
+                            <img src="assets/images/client3.jpg" alt="خالد عبدالله" class="client-img">
+                        </div>
+                        <div class="col-md-3 col-sm-4 mb-3 mb-md-0">
+                            <h6 class="mb-1">خالد عبدالله</h6>
+                            <p class="mb-0 text-muted small">جلسة متابعة</p>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3 mb-md-0">
+                            <div class="appointment-date">
+                                <i class="far fa-clock me-1"></i> 5:00 مساءً - 6:00 مساءً
+                            </div>
+                            <div class="text-muted small">
+                                <i class="fas fa-video me-1"></i> جلسة عبر الإنترنت
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-6 mb-3 mb-md-0">
+                            <span class="appointment-status status-pending">بانتظار الدفع</span>
+                        </div>
+                        <div class="col-md-3 text-md-end mt-3 mt-md-0">
+                            <a href="#" class="btn btn-sm btn-outline-primary me-2">تذكير</a>
+                            <a href="#" class="btn btn-sm btn-primary">تفاصيل</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Calendar -->
+        <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">جدول المواعيد</h5>
+                <a href="#" class="btn btn-sm btn-primary">إدارة المواعيد</a>
+            </div>
+            <div class="card-body">
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <div class="calendar-nav">
+                            <button id="prevMonth"><i class="fas fa-chevron-right"></i></button>
+                            <h5 class="calendar-title">أبريل 2025</h5>
+                            <button id="nextMonth"><i class="fas fa-chevron-left"></i></button>
+                        </div>
+                        <div>
+                            <button class="btn btn-sm btn-outline-primary">اليوم</button>
+                        </div>
+                    </div>
+                    <div class="calendar-grid">
+                        <div class="calendar-day-header">الأحد</div>
+                        <div class="calendar-day-header">الإثنين</div>
+                        <div class="calendar-day-header">الثلاثاء</div>
+                        <div class="calendar-day-header">الأربعاء</div>
+                        <div class="calendar-day-header">الخميس</div>
+                        <div class="calendar-day-header">الجمعة</div>
+                        <div class="calendar-day-header">السبت</div>
+                        
+                        <!-- Calendar Days -->
+                        <div class="calendar-day other-month">
+                            <div class="calendar-day-number">30</div>
+                        </div>
+                        <div class="calendar-day other-month">
+                            <div class="calendar-day-number">31</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">1</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">2</div>
+                            <div class="calendar-event confirmed">10:00 - أحمد محمد</div>
+                            <div class="calendar-event">2:30 - سمر علي</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">3</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">4</div>
+                            <div class="calendar-event confirmed">11:30 - ليلى عمر</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">5</div>
+                        </div>
+                        
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">6</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">7</div>
+                            <div class="calendar-event confirmed">9:00 - محمد خالد</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">8</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">9</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">10</div>
+                            <div class="calendar-event confirmed">1:00 - سارة أحمد</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">11</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">12</div>
+                        </div>
+                        
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">13</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">14</div>
+                            <div class="calendar-event confirmed">10:30 - عمر محمود</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">15</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">16</div>
+                            <div class="calendar-event confirmed">3:00 - نورا سامي</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">17</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">18</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">19</div>
+                            <div class="calendar-event confirmed">11:00 - فاطمة علي</div>
+                        </div>
+                        
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">20</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">21</div>
+                            <div class="calendar-event confirmed">2:00 - سمير حسن</div>
+                        </div>
+                        <div class="calendar-day today">
+                            <div class="calendar-day-number">22</div>
+                            <div class="calendar-event confirmed">10:00 - أحمد محمد</div>
+                            <div class="calendar-event confirmed">2:30 - سمر علي</div>
+                            <div class="calendar-event pending">5:00 - خالد عبدالله</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">23</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">24</div>
+                            <div class="calendar-event pending">4:00 - ريم أحمد</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">25</div>
+                            <div class="calendar-event confirmed">10:00 - أحمد محمد</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">26</div>
+                        </div>
+                        
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">27</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">28</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">29</div>
+                            <div class="calendar-event pending">1:30 - هدى سعيد</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">30</div>
+                            <div class="calendar-event confirmed">2:30 - محمد خالد</div>
+                        </div>
+                        <div class="calendar-day other-month">
+                            <div class="calendar-day-number">1</div>
+                        </div>
+                        <div class="calendar-day other-month">
+                            <div class="calendar-day-number">2</div>
+                        </div>
+                        <div class="calendar-day other-month">
+                            <div class="calendar-day-number">3</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Clients -->
+        <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">العملاء الجدد</h5>
+                <a href="#" class="btn btn-sm btn-primary">عرض جميع العملاء</a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>العميل</th>
+                                <th>تاريخ التسجيل</th>
+                                <th>الخدمة</th>
+                                <th>الحالة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="assets/images/client1.jpg" alt="أحمد محمد" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                        <div>
+                                            <h6 class="mb-0">أحمد محمد</h6>
+                                            <small class="text-muted">ahmed@example.com</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>20 أبريل 2025</td>
+                                <td>جلسة استشارية</td>
+                                <td><span class="badge bg-success">نشط</span></td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">عرض الملف</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="assets/images/client2.jpg" alt="سمر علي" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                        <div>
+                                            <h6 class="mb-0">سمر علي</h6>
+                                            <small class="text-muted">samar@example.com</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>18 أبريل 2025</td>
+                                <td>جلسة علاجية</td>
+                                <td><span class="badge bg-success">نشط</span></td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">عرض الملف</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="assets/images/client3.jpg" alt="خالد عبدالله" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                        <div>
+                                            <h6 class="mb-0">خالد عبدالله</h6>
+                                            <small class="text-muted">khaled@example.com</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>15 أبريل 2025</td>
+                                <td>جلسة متابعة</td>
+                                <td><span class="badge bg-warning text-dark">معلق</span></td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">عرض الملف</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="assets/images/client4.jpg" alt="ريم أحمد" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                        <div>
+                                            <h6 class="mb-0">ريم أحمد</h6>
+                                            <small class="text-muted">reem@example.com</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>12 أبريل 2025</td>
+                                <td>جلسة استشارية</td>
+                                <td><span class="badge bg-success">نشط</span></td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">عرض الملف</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar toggle functionality for mobile
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            
+            if (sidebarToggle && sidebar) {
+                sidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                });
+                
+                // Close sidebar when clicking outside
+                document.addEventListener('click', function(event) {
+                    const isClickInsideSidebar = sidebar.contains(event.target);
+                    const isClickOnToggle = sidebarToggle.contains(event.target);
+                    
+                    if (!isClickInsideSidebar && !isClickOnToggle && sidebar.classList.contains('active')) {
+                        sidebar.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Calendar navigation
+            const prevMonthBtn = document.getElementById('prevMonth');
+            const nextMonthBtn = document.getElementById('nextMonth');
+            const calendarTitle = document.querySelector('.calendar-title');
+            
+            if (prevMonthBtn && nextMonthBtn && calendarTitle) {
+                const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+                let currentDate = new Date(2025, 3, 22); // April 22, 2025
+                
+                function updateCalendarTitle() {
+                    calendarTitle.textContent = `${months[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+                }
+                
+                prevMonthBtn.addEventListener('click', function() {
+                    currentDate.setMonth(currentDate.getMonth() - 1);
+                    updateCalendarTitle();
+                });
+                
+                nextMonthBtn.addEventListener('click', function() {
+                    currentDate.setMonth(currentDate.getMonth() + 1);
+                    updateCalendarTitle();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

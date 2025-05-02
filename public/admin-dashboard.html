@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم الأدمن - نفسجي للتمكين النفسي</title>
+    <!-- Bootstrap RTL CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Tajawal -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #6a4c93;
+            --secondary-color: #8ac4d0;
+            --accent-color: #ffd166;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --dark-bg: #343a40;
+            --sidebar-width: 280px;
+        }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            min-height: 100vh;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #5a3d83;
+            border-color: #5a3d83;
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background-color: white;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: all 0.3s;
+            overflow-y: auto;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .sidebar-logo {
+            max-height: 50px;
+        }
+        
+        .sidebar-menu {
+            padding: 0;
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+        
+        .sidebar-menu li a {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-right: 3px solid transparent;
+        }
+        
+        .sidebar-menu li a:hover, .sidebar-menu li a.active {
+            background-color: var(--light-bg);
+            border-right-color: var(--primary-color);
+        }
+        
+        .sidebar-menu li a i {
+            margin-left: 10px;
+            color: var(--primary-color);
+        }
+        
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            margin-right: var(--sidebar-width);
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        .page-header {
+            margin-bottom: 30px;
+        }
+        
+        .page-header h1 {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-weight: bold;
+        }
+        
+        .stat-card {
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card .icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+        
+        .stat-card .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: var(--primary-color);
+        }
+        
+        .stat-card .stat-label {
+            color: #777;
+            font-size: 1rem;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        .table th {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .table td {
+            vertical-align: middle;
+        }
+        
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .status-active {
+            background-color: rgba(25, 135, 84, 0.1);
+            color: #198754;
+        }
+        
+        .status-pending {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+        }
+        
+        .status-inactive {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+        
+        .notification-card {
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .notification-card .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-left: 15px;
+        }
+        
+        .notification-card .notification-icon.bg-primary {
+            background-color: var(--primary-color);
+        }
+        
+        .notification-card .notification-icon.bg-success {
+            background-color: #198754;
+        }
+        
+        .notification-card .notification-icon.bg-warning {
+            background-color: #ffc107;
+        }
+        
+        .notification-card .notification-icon.bg-danger {
+            background-color: #dc3545;
+        }
+        
+        .notification-card .notification-time {
+            color: #777;
+            font-size: 0.8rem;
+        }
+        
+        /* Responsive Sidebar */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-right: 0;
+            }
+            
+            .sidebar-toggle {
+                display: block;
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 1100;
+                background-color: var(--primary-color);
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 45px;
+                height: 45px;
+                text-align: center;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .sidebar-toggle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Toggle Button (Mobile) -->
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="assets/images/logo-white.png" alt="نفسجي" class="sidebar-logo">
+            <h5 class="mt-3 mb-0">مرحباً، مدير النظام</h5>
+        </div>
+        <ul class="sidebar-menu mt-4">
+            <li>
+                <a href="#" class="active">
+                    <i class="fas fa-home"></i>
+                    الرئيسية
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-users"></i>
+                    المستخدمين
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-user-md"></i>
+                    المختصين
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-clipboard-list"></i>
+                    الخدمات
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-calendar-alt"></i>
+                    الحجوزات
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-credit-card"></i>
+                    المدفوعات
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-chart-bar"></i>
+                    التقارير
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-cog"></i>
+                    الإعدادات
+                </a>
+            </li>
+            <li>
+                <a href="index.html">
+                    <i class="fas fa-sign-out-alt"></i>
+                    تسجيل الخروج
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <p class="mb-0 text-muted">نفسجي للتمكين النفسي &copy; 2025</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1>لوحة التحكم</h1>
+            <p class="text-muted">مرحباً بك في لوحة تحكم الأدمن، يمكنك إدارة جميع جوانب الموقع من هنا</p>
+        </div>
+        
+        <!-- Stats Row -->
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card text-center">
+                    <div class="icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-value">256</div>
+                    <div class="stat-label">إجمالي المستخدمين</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card text-center">
+                    <div class="icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <div class="stat-value">32</div>
+                    <div class="stat-label">المختصين النشطين</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card text-center">
+                    <div class="icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-value">128</div>
+                    <div class="stat-label">الحجوزات الشهرية</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card text-center">
+                    <div class="icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="stat-value">45,600</div>
+                    <div class="stat-label">الإيرادات الشهرية (ر.س)</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Charts Row -->
+        <div class="row mt-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">إحصائيات الحجوزات</h5>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="bookingStatsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                آخر 30 يوم
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="bookingStatsDropdown">
+                                <li><a class="dropdown-item" href="#">آخر 7 أيام</a></li>
+                                <li><a class="dropdown-item" href="#">آخر 30 يوم</a></li>
+                                <li><a class="dropdown-item" href="#">آخر 90 يوم</a></li>
+                                <li><a class="dropdown-item" href="#">هذا العام</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="bookingsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">توزيع الخدمات</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="servicesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Specialists -->
+        <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">طلبات المختصين الجدد</h5>
+                <a href="#" class="btn btn-sm btn-primary">عرض الكل</a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>المختص</th>
+                                <th>التخصص</th>
+                                <th>تاريخ التسجيل</th>
+                                <th>الحالة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="assets/images/specialist1.jpg" alt="د. سارة أحمد" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                        <div>
+                                            <h6 class="mb-0">د. سارة أحمد</h6>
+                                            <small class="text-muted">sara@example.com</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>علم النفس الإكلينيكي</td>
+                                <td>20 أبريل 2025</td>
+                                <td><span class="status-badge status-pending">قيد المراجعة</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-success me-1">قبول</button>
+                                    <button class="btn btn-sm btn-danger">رفض</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="assets/images/specialist2.jpg" alt="د. محمد خالد" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                        <div>
+                                            <h6 class="mb-0">د. محمد خالد</h6>
+                                            <small class="text-muted">mohamed@example.com</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>الإرشاد الأسري والزواجي</td>
+                                <td>18 أبريل 2025</td>
+                                <td><span class="status-badge status-pending">قيد المراجعة</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-success me-1">قبول</button>
+                                    <button class="btn btn-sm btn-danger">رفض</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="assets/images/specialist3.jpg" alt="د. ليلى عمر" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                        <div>
+                                            <h6 class="mb-0">د. ليلى عمر</h6>
+                                            <small class="text-muted">layla@example.com</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>علم النفس التنموي</td>
+                                <td>15 أبريل 2025</td>
+                                <td><span class="status-badge status-active">تم القبول</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary">عرض الملف</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Bookings -->
+        <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">أحدث الحجوزات</h5>
+                <a href="#" class="btn btn-sm btn-primary">عرض الكل</a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>رقم الحجز</th>
+                                <th>المستخدم</th>
+                                <th>المختص</th>
+                                <th>الخدمة</th>
+                                <th>التاريخ</th>
+                                <th>المبلغ</th>
+                                <th>الحالة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#BK1025</td>
+                                <td>أحمد محمد</td>
+                                <td>د. سارة أحمد</td>
+                                <td>جلسة استشارية</td>
+                                <td>22 أبريل 2025</td>
+                                <td>300 ر.س</td>
+                                <td><span class="status-badge status-active">مؤكد</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary">تفاصيل</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#BK1024</td>
+                                <td>سمر علي</td>
+                                <td>د. محمد خالد</td>
+                                <td>جلسة علاجية</td>
+                                <td>22 أبريل 2025</td>
+                                <td>350 ر.س</td>
+                                <td><span class="status-badge status-active">مؤكد</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary">تفاصيل</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#BK1023</td>
+                                <td>خالد عبدالله</td>
+                                <td>د. ليلى عمر</td>
+                                <td>جلسة متابعة</td>
+                                <td>22 أبريل 2025</td>
+                                <td>250 ر.س</td>
+                                <td><span class="status-badge status-pending">بانتظار الدفع</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary">تفاصيل</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#BK1022</td>
+                                <td>ريم أحمد</td>
+                                <td>د. سارة أحمد</td>
+                                <td>جلسة استشارية</td>
+                                <td>21 أبريل 2025</td>
+                                <td>300 ر.س</td>
+                                <td><span class="status-badge status-active">مؤكد</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary">تفاصيل</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Two Column Layout -->
+        <div class="row mt-4">
+            <!-- Recent Payments -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">أحدث المدفوعات</h5>
+                        <a href="#" class="btn btn-sm btn-primary">عرض الكل</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>رقم العملية</th>
+                                        <th>المستخدم</th>
+                                        <th>المبلغ</th>
+                                        <th>التاريخ</th>
+                                        <th>الحالة</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#PAY2045</td>
+                                        <td>أحمد محمد</td>
+                                        <td>300 ر.س</td>
+                                        <td>22 أبريل 2025</td>
+                                        <td><span class="status-badge status-active">مكتمل</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#PAY2044</td>
+                                        <td>سمر علي</td>
+                                        <td>350 ر.س</td>
+                                        <td>22 أبريل 2025</td>
+                                        <td><span class="status-badge status-active">مكتمل</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#PAY2043</td>
+                                        <td>ريم أحمد</td>
+                                        <td>300 ر.س</td>
+                                        <td>21 أبريل 2025</td>
+                                        <td><span class="status-badge status-active">مكتمل</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#PAY2042</td>
+                                        <td>محمد خالد</td>
+                                        <td>400 ر.س</td>
+                                        <td>21 أبريل 2025</td>
+                                        <td><span class="status-badge status-active">مكتمل</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Notifications -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">آخر الإشعارات</h5>
+                        <a href="#" class="btn btn-sm btn-primary">عرض الكل</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="notification-card d-flex align-items-start">
+                            <div class="notification-icon bg-primary">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">تسجيل مستخدم جديد</h6>
+                                <p class="mb-1">قام أحمد محمد بإنشاء حساب جديد</p>
+                                <span class="notification-time">منذ 10 دقائق</span>
+                            </div>
+                        </div>
+                        
+                        <div class="notification-card d-flex align-items-start">
+                            <div class="notification-icon bg-success">
+                                <i class="fas fa-credit-card"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">عملية دفع ناجحة</h6>
+                                <p class="mb-1">تم إتمام عملية دفع بمبلغ 350 ر.س من سمر علي</p>
+                                <span class="notification-time">منذ 25 دقيقة</span>
+                            </div>
+                        </div>
+                        
+                        <div class="notification-card d-flex align-items-start">
+                            <div class="notification-icon bg-warning">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">طلب تسجيل مختص جديد</h6>
+                                <p class="mb-1">قام د. محمد خالد بتقديم طلب تسجيل كمختص</p>
+                                <span class="notification-time">منذ ساعتين</span>
+                            </div>
+                        </div>
+                        
+                        <div class="notification-card d-flex align-items-start">
+                            <div class="notification-icon bg-danger">
+                                <i class="fas fa-calendar-times"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">إلغاء حجز</h6>
+                                <p class="mb-1">قام خالد عبدالله بإلغاء الحجز #BK1020</p>
+                                <span class="notification-time">منذ 5 ساعات</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar toggle functionality for mobile
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            
+            if (sidebarToggle && sidebar) {
+                sidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                });
+                
+                // Close sidebar when clicking outside
+                document.addEventListener('click', function(event) {
+                    const isClickInsideSidebar = sidebar.contains(event.target);
+                    const isClickOnToggle = sidebarToggle.contains(event.target);
+                    
+                    if (!isClickInsideSidebar && !isClickOnToggle && sidebar.classList.contains('active')) {
+                        sidebar.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Bookings Chart
+            const bookingsChartCtx = document.getElementById('bookingsChart');
+            if (bookingsChartCtx) {
+                const bookingsChart = new Chart(bookingsChartCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['1 أبريل', '5 أبريل', '10 أبريل', '15 أبريل', '20 أبريل', '22 أبريل'],
+                        datasets: [
+                            {
+                                label: 'الحجوزات',
+                                data: [12, 19, 15, 20, 25, 28],
+                                borderColor: '#6a4c93',
+                                backgroundColor: 'rgba(106, 76, 147, 0.1)',
+                                tension: 0.4,
+                                fill: true
+                            },
+                            {
+                                label: 'الجلسات المكتملة',
+                                data: [10, 15, 12, 18, 22, 24],
+                                borderColor: '#8ac4d0',
+                                backgroundColor: 'rgba(138, 196, 208, 0.1)',
+                                tension: 0.4,
+                                fill: true
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Services Chart
+            const servicesChartCtx = document.getElementById('servicesChart');
+            if (servicesChartCtx) {
+                const servicesChart = new Chart(servicesChartCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: [
+                            'الاستشارات النفسية',
+                            'العلاج النفسي',
+                            'الإرشاد الأسري',
+                            'تطوير الذات',
+                            'علم نفس الطفل'
+                        ],
+                        datasets: [{
+                            data: [35, 25, 20, 10, 10],
+                            backgroundColor: [
+                                '#6a4c93',
+                                '#8ac4d0',
+                                '#ffd166',
+                                '#ef476f',
+                                '#06d6a0'
+                            ],
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

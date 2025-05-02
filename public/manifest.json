@@ -1,0 +1,108 @@
+{
+  "name": "نفسجي - للتمكين النفسي",
+  "short_name": "نفسجي",
+  "description": "منصة نفسجي للتمكين النفسي - خدمات استشارية نفسية متنوعة مع فريق من المختصين",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6a4c93",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/images/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/images/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/images/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/images/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/images/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/images/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/images/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/images/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "حجز جلسة",
+      "short_name": "حجز",
+      "description": "حجز جلسة مع مختص",
+      "url": "/booking",
+      "icons": [
+        {
+          "src": "/assets/images/icons/booking.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "المختصين",
+      "short_name": "المختصين",
+      "description": "استعراض المختصين",
+      "url": "/specialists",
+      "icons": [
+        {
+          "src": "/assets/images/icons/specialists.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "dir": "rtl",
+  "lang": "ar",
+  "categories": ["health", "medical", "lifestyle"],
+  "screenshots": [
+    {
+      "src": "/assets/images/screenshots/home.png",
+      "sizes": "1280x720",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/images/screenshots/services.png",
+      "sizes": "1280x720",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/images/screenshots/booking.png",
+      "sizes": "1280x720",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم المستخدم - نفسجي للتمكين النفسي</title>
+    <!-- Bootstrap RTL CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Tajawal -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #6a4c93;
+            --secondary-color: #8ac4d0;
+            --accent-color: #ffd166;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --dark-bg: #343a40;
+            --sidebar-width: 280px;
+        }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            min-height: 100vh;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #5a3d83;
+            border-color: #5a3d83;
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background-color: white;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: all 0.3s;
+            overflow-y: auto;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .sidebar-logo {
+            max-height: 50px;
+        }
+        
+        .sidebar-menu {
+            padding: 0;
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+        
+        .sidebar-menu li a {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-right: 3px solid transparent;
+        }
+        
+        .sidebar-menu li a:hover, .sidebar-menu li a.active {
+            background-color: var(--light-bg);
+            border-right-color: var(--primary-color);
+        }
+        
+        .sidebar-menu li a i {
+            margin-left: 10px;
+            color: var(--primary-color);
+        }
+        
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            margin-right: var(--sidebar-width);
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        .page-header {
+            margin-bottom: 30px;
+        }
+        
+        .page-header h1 {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-weight: bold;
+        }
+        
+        .stat-card {
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card .icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+        
+        .stat-card .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: var(--primary-color);
+        }
+        
+        .stat-card .stat-label {
+            color: #777;
+            font-size: 1rem;
+        }
+        
+        .appointment-card {
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .appointment-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .appointment-card .specialist-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .appointment-card .appointment-date {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .appointment-card .appointment-status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .status-confirmed {
+            background-color: rgba(25, 135, 84, 0.1);
+            color: #198754;
+        }
+        
+        .status-pending {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+        }
+        
+        .status-completed {
+            background-color: rgba(13, 110, 253, 0.1);
+            color: #0d6efd;
+        }
+        
+        .status-cancelled {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+        
+        .profile-card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .profile-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        
+        .profile-body {
+            padding: 20px;
+        }
+        
+        .profile-info {
+            margin-bottom: 20px;
+        }
+        
+        .profile-info .label {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        /* Responsive Sidebar */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-right: 0;
+            }
+            
+            .sidebar-toggle {
+                display: block;
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 1100;
+                background-color: var(--primary-color);
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 45px;
+                height: 45px;
+                text-align: center;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .sidebar-toggle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Toggle Button (Mobile) -->
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="assets/images/logo-white.png" alt="نفسجي" class="sidebar-logo">
+            <h5 class="mt-3 mb-0">مرحباً، أحمد محمد</h5>
+        </div>
+        <ul class="sidebar-menu mt-4">
+            <li>
+                <a href="#" class="active">
+                    <i class="fas fa-home"></i>
+                    الرئيسية
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-calendar-alt"></i>
+                    مواعيدي
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-video"></i>
+                    جلساتي
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-user-md"></i>
+                    المختصين
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-credit-card"></i>
+                    المدفوعات
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-user"></i>
+                    الملف الشخصي
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-cog"></i>
+                    الإعدادات
+                </a>
+            </li>
+            <li>
+                <a href="index.html">
+                    <i class="fas fa-sign-out-alt"></i>
+                    تسجيل الخروج
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <p class="mb-0 text-muted">نفسجي للتمكين النفسي &copy; 2025</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1>لوحة التحكم</h1>
+            <p class="text-muted">مرحباً بك في لوحة تحكم نفسجي، يمكنك إدارة حسابك ومتابعة جلساتك من هنا</p>
+        </div>
+        
+        <!-- Stats Row -->
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card text-center">
+                    <div class="icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">الجلسات المكتملة</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card text-center">
+                    <div class="icon">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">المواعيد القادمة</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card text-center">
+                    <div class="icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="stat-value">450</div>
+                    <div class="stat-label">الرصيد (ر.س)</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-card text-center">
+                    <div class="icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-value">4.8</div>
+                    <div class="stat-label">متوسط التقييم</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Upcoming Appointments -->
+        <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">المواعيد القادمة</h5>
+                <a href="#" class="btn btn-sm btn-primary">عرض الكل</a>
+            </div>
+            <div class="card-body">
+                <div class="appointment-card">
+                    <div class="row align-items-center">
+                        <div class="col-md-1 col-sm-2 mb-3 mb-md-0">
+                            <img src="assets/images/specialist1.jpg" alt="د. سارة أحمد" class="specialist-img">
+                        </div>
+                        <div class="col-md-3 col-sm-4 mb-3 mb-md-0">
+                            <h6 class="mb-1">د. سارة أحمد</h6>
+                            <p class="mb-0 text-muted small">علم النفس الإكلينيكي</p>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3 mb-md-0">
+                            <div class="appointment-date">
+                                <i class="far fa-calendar-alt me-1"></i> 25 أبريل 2025
+                            </div>
+                            <div class="text-muted small">
+                                <i class="far fa-clock me-1"></i> 10:00 صباحاً
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-6 mb-3 mb-md-0">
+                            <span class="appointment-status status-confirmed">مؤكد</span>
+                        </div>
+                        <div class="col-md-3 text-md-end mt-3 mt-md-0">
+                            <a href="#" class="btn btn-sm btn-outline-primary me-2">تعديل</a>
+                            <a href="#" class="btn btn-sm btn-primary">دخول الجلسة</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="appointment-card">
+                    <div class="row align-items-center">
+                        <div class="col-md-1 col-sm-2 mb-3 mb-md-0">
+                            <img src="assets/images/specialist2.jpg" alt="د. محمد خالد" class="specialist-img">
+                        </div>
+                        <div class="col-md-3 col-sm-4 mb-3 mb-md-0">
+                            <h6 class="mb-1">د. محمد خالد</h6>
+                            <p class="mb-0 text-muted small">الإرشاد الأسري والزواجي</p>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3 mb-md-0">
+                            <div class="appointment-date">
+                                <i class="far fa-calendar-alt me-1"></i> 30 أبريل 2025
+                            </div>
+                            <div class="text-muted small">
+                                <i class="far fa-clock me-1"></i> 2:30 مساءً
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-6 mb-3 mb-md-0">
+                            <span class="appointment-status status-pending">بانتظار الدفع</span>
+                        </div>
+                        <div class="col-md-3 text-md-end mt-3 mt-md-0">
+                            <a href="#" class="btn btn-sm btn-outline-primary me-2">إلغاء</a>
+                            <a href="#" class="btn btn-sm btn-primary">إتمام الدفع</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Sessions -->
+        <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">الجلسات السابقة</h5>
+                <a href="#" class="btn btn-sm btn-primary">عرض الكل</a>
+            </div>
+            <div class="card-body">
+                <div class="appointment-card">
+                    <div class="row align-items-center">
+                        <div class="col-md-1 col-sm-2 mb-3 mb-md-0">
+                            <img src="assets/images/specialist3.jpg" alt="د. ليلى عمر" class="specialist-img">
+                        </div>
+                        <div class="col-md-3 col-sm-4 mb-3 mb-md-0">
+                            <h6 class="mb-1">د. ليلى عمر</h6>
+                            <p class="mb-0 text-muted small">علم النفس التنموي</p>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3 mb-md-0">
+                            <div class="appointment-date">
+                                <i class="far fa-calendar-alt me-1"></i> 15 أبريل 2025
+                            </div>
+                            <div class="text-muted small">
+                                <i class="far fa-clock me-1"></i> 11:00 صباحاً
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-6 mb-3 mb-md-0">
+                            <span class="appointment-status status-completed">مكتملة</span>
+                        </div>
+                        <div class="col-md-3 text-md-end mt-3 mt-md-0">
+                            <a href="#" class="btn btn-sm btn-outline-primary me-2">التقييم</a>
+                            <a href="#" class="btn btn-sm btn-primary">عرض التفاصيل</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="appointment-card">
+                    <div class="row align-items-center">
+                        <div class="col-md-1 col-sm-2 mb-3 mb-md-0">
+                            <img src="assets/images/specialist1.jpg" alt="د. سارة أحمد" class="specialist-img">
+                        </div>
+                        <div class="col-md-3 col-sm-4 mb-3 mb-md-0">
+                            <h6 class="mb-1">د. سارة أحمد</h6>
+                            <p class="mb-0 text-muted small">علم النفس الإكلينيكي</p>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-3 mb-md-0">
+                            <div class="appointment-date">
+                                <i class="far fa-calendar-alt me-1"></i> 5 أبريل 2025
+                            </div>
+                            <div class="text-muted small">
+                                <i class="far fa-clock me-1"></i> 1:00 مساءً
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-6 mb-3 mb-md-0">
+                            <span class="appointment-status status-completed">مكتملة</span>
+                        </div>
+                        <div class="col-md-3 text-md-end mt-3 mt-md-0">
+                            <a href="#" class="btn btn-sm btn-outline-primary me-2">التقييم</a>
+                            <a href="#" class="btn btn-sm btn-primary">عرض التفاصيل</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recommended Specialists -->
+        <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">مختصين موصى بهم</h5>
+                <a href="#" class="btn btn-sm btn-primary">عرض الكل</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="assets/images/specialist2.jpg" class="card-img-top" alt="د. محمد خالد" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title">د. محمد خالد</h5>
+                                <span class="badge bg-light text-dark mb-2">الإرشاد الأسري والزواجي</span>
+                                <div class="text-warning mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span class="text-muted ms-1">4.5</span>
+                                </div>
+                                <p class="card-text small">مختص في الإرشاد الأسري والزواجي مع خبرة في حل المشكلات الأسرية وتحسين العلاقات الزوجية.</p>
+                                <a href="#" class="btn btn-sm btn-primary">حجز موعد</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="assets/images/specialist3.jpg" class="card-img-top" alt="د. ليلى عمر" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title">د. ليلى عمر</h5>
+                                <span class="badge bg-light text-dark mb-2">علم النفس التنموي</span>
+                                <div class="text-warning mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="text-muted ms-1">5.0</span>
+                                </div>
+                                <p class="card-text small">مختصة في علم النفس التنموي والتربوي مع خبرة في التعامل مع مشكلات الأطفال والمراهقين.</p>
+                                <a href="#" class="btn btn-sm btn-primary">حجز موعد</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="assets/images/specialist1.jpg" class="card-img-top" alt="د. سارة أحمد" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title">د. سارة أحمد</h5>
+                                <span class="badge bg-light text-dark mb-2">علم النفس الإكلينيكي</span>
+                                <div class="text-warning mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span class="text-muted ms-1">4.0</span>
+                                </div>
+                                <p class="card-text small">دكتوراه في علم النفس الإكلينيكي مع خبرة أكثر من 10 سنوات في العلاج النفسي والاستشارات النفسية.</p>
+                                <a href="#" class="btn btn-sm btn-primary">حجز موعد</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar toggle functionality for mobile
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            
+            if (sidebarToggle && sidebar) {
+                sidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                });
+                
+                // Close sidebar when clicking outside
+                document.addEventListener('click', function(event) {
+                    const isClickInsideSidebar = sidebar.contains(event.target);
+                    const isClickOnToggle = sidebarToggle.contains(event.target);
+                    
+                    if (!isClickInsideSidebar && !isClickOnToggle && sidebar.classList.contains('active')) {
+                        sidebar.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
