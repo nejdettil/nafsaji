@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8fad4945-24e8-41f9-8491-7748ccbbb405" name="Changes" comment="تحدث">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/deploy.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/deploy.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -200,7 +201,7 @@
       <workItem from="1745366264683" duration="5379000" />
       <workItem from="1745371788798" duration="69325000" />
       <workItem from="1745580831522" duration="59744000" />
-      <workItem from="1746274046628" duration="7550000" />
+      <workItem from="1746274046628" duration="9950000" />
     </task>
     <task id="LOCAL؜-٠٠٠٠١" summary="Route::get('/notifications/count', [App\Http\Controllers\Admin\NotificationController::class, 'count'])-&gt;name('notifications.count');">
       <option name="closed" value="true" />

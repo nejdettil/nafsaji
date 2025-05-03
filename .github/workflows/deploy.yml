@@ -1,25 +1,25 @@
-name: Deploy to GoDaddy
+name: Auto Deploy to GoDaddy
 
 on:
   push:
     branches:
-      - main
+      - main  # تأكد أن الفرع اللي بتشتغل عليه هو main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Deploy via SSH
+      - name: Setup SSH
         run: |
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no h5m1m382zrcp@127.0.0.1 -p 22 "
-            cd public_html &&
-            git pull origin main
-          "
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_dsa
+          chmod 600 ~/.ssh/id_dsa
+          ssh-keyscan nafsaji.net >> ~/.ssh/known_hosts
 
       - name: Deploy via SSH
         run: |
-          ssh -i ~/.ssh/id_rsa h5m1m38z2rcp@nafsaji.net "cd /home/h5m1m38z2rcp/public_html && git pull origin main"
+          ssh -i ~/.ssh/id_dsa h5m1m38z2rcp@nafsaji.net 'cd /home/h5m1m38z2rcp/public_html && git pull origin main'
