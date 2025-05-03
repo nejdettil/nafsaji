@@ -252,6 +252,7 @@ Route::prefix("specialist")->name("specialist.")->middleware(["auth", "role:spec
 });
 // مسارات لوحة الإدارة
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/notifications/count', [App\Http\Controllers\Admin\NotificationController::class, 'count'])->name('notifications.count');
     // لوحة التحكم الإدارية
     Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
