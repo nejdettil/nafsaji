@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8fad4945-24e8-41f9-8491-7748ccbbb405" name="Changes" comment="تحديث">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-    </list>
+    <list default="true" id="8fad4945-24e8-41f9-8491-7748ccbbb405" name="Changes" comment="تحديث" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -202,7 +199,7 @@
       <workItem from="1745366264683" duration="5379000" />
       <workItem from="1745371788798" duration="69325000" />
       <workItem from="1745580831522" duration="59744000" />
-      <workItem from="1746274046628" duration="14225000" />
+      <workItem from="1746274046628" duration="14539000" />
     </task>
     <task id="LOCAL؜-٠٠٠٠١" summary="Route::get('/notifications/count', [App\Http\Controllers\Admin\NotificationController::class, 'count'])-&gt;name('notifications.count');">
       <option name="closed" value="true" />
@@ -260,7 +257,15 @@
       <option name="project" value="LOCAL؜" />
       <updated>1746314370405</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL؜-٠٠٠٠٨" summary="تحديث">
+      <option name="closed" value="true" />
+      <created>1746316559705</created>
+      <option name="number" value="٠٠٠٠٨" />
+      <option name="presentableId" value="LOCAL؜-٠٠٠٠٨" />
+      <option name="project" value="LOCAL؜" />
+      <updated>1746316559705</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
