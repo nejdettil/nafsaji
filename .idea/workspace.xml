@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8fad4945-24e8-41f9-8491-7748ccbbb405" name="Changes" comment="تحديث">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="8fad4945-24e8-41f9-8491-7748ccbbb405" name="Changes" comment="تحديث" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -200,7 +198,7 @@
       <workItem from="1745366264683" duration="5379000" />
       <workItem from="1745371788798" duration="69325000" />
       <workItem from="1745580831522" duration="59744000" />
-      <workItem from="1746274046628" duration="11854000" />
+      <workItem from="1746274046628" duration="12175000" />
     </task>
     <task id="LOCAL؜-٠٠٠٠١" summary="Route::get('/notifications/count', [App\Http\Controllers\Admin\NotificationController::class, 'count'])-&gt;name('notifications.count');">
       <option name="closed" value="true" />

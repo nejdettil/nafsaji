@@ -259,6 +259,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::post('/roles', [RoleController::class, 'store'])->name('roles.store');
 
+    Route::get('/admin/users/download-template', [UserManagementController::class, 'downloadTemplate'])->name('admin.users.download-template');
+
     // الإشعارات
     Route::get('/notifications/count', [NotificationController::class, 'count'])->name('notifications.count');
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
