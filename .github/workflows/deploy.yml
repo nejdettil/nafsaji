@@ -3,7 +3,7 @@ name: Auto Deploy to GoDaddy
 on:
   push:
     branches:
-      - main  # تأكد أن الفرع اللي بتشتغل عليه هو main
+      - main
 
 jobs:
   deploy:
@@ -13,13 +13,13 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Setup SSH
+      - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_dsa
-          chmod 600 ~/.ssh/id_dsa
+          echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
           ssh-keyscan nafsaji.net >> ~/.ssh/known_hosts
 
       - name: Deploy via SSH
         run: |
-          ssh -i ~/.ssh/id_dsa h5m1m38z2rcp@nafsaji.net 'cd /home/h5m1m38z2rcp/public_html && git pull origin main'
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no h5m1m38z2rcp@nafsaji.net "cd ~/public_html && git pull origin main"
