@@ -12,7 +12,7 @@ use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminPackageController;
-use App\Http\Controllers\Admin\UserManagementController;
+use App\Http\Controllers\Admin\UserManagementController as AdminUserManagementController;
 use App\Http\Controllers\Admin\SpecialistController;
 use App\Http\Controllers\Admin\ServiceCategoryController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
@@ -259,7 +259,21 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::post('/roles', [RoleController::class, 'store'])->name('roles.store');
 
-    Route::get('/admin/users/download-template', [UserManagementController::class, 'downloadTemplate'])->name('admin.users.download-template');
+    Route::get('/users/download-template', [AdminUserManagementController::class, 'downloadTemplate'])->name('users.download-template');
+    Route::post('/users/bulk-action', [AdminUserManagementController::class, 'bulkAction'])->name('users.bulk-action');
+    Route::get('/users/chart-data', [AdminUserManagementController::class, 'getChartData'])->name('users-chart-data');
+    Route::post('/users/status', [AdminUserManagementController::class, 'updateStatus'])->name('users.update-status');
+    Route::get('/users', [AdminUserManagementController::class, 'index'])->name('users.index');
+    Route::get('/users/create', [AdminUserManagementController::class, 'create'])->name('users.create');
+    Route::post('/users', [AdminUserManagementController::class, 'store'])->name('users.store');
+    Route::get('/users/{user}/edit', [AdminUserManagementController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [AdminUserManagementController::class, 'update'])->name('users.update');
+    Route::delete('/users/{user}', [AdminUserManagementController::class, 'destroy'])->name('users.destroy');
+    Route::get('/users/get', [AdminUserManagementController::class, 'get'])->name('users.get');
+
+
+
+
 
     // الإشعارات
     Route::get('/notifications/count', [NotificationController::class, 'count'])->name('notifications.count');
@@ -283,15 +297,15 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::post('/settings/social', [SettingsController::class, 'updateSocial'])->name('settings.update.social');
 
     // إدارة المستخدمين
-    Route::get('/users', [UserManagementController::class, 'index'])->name('users.index');
-    Route::get('/users/create', [UserManagementController::class, 'create'])->name('users.create');
-    Route::post('/users', [UserManagementController::class, 'store'])->name('users.store');
-    Route::get('/users/{user}', [UserManagementController::class, 'show'])->name('users.show');
-    Route::get('/users/{user}/edit', [UserManagementController::class, 'edit'])->name('users.edit');
-    Route::put('/users/{user}', [UserManagementController::class, 'update'])->name('users.update');
-    Route::delete('/users/{user}', [UserManagementController::class, 'destroy'])->name('users.destroy');
-    Route::get('/users/export', [UserManagementController::class, 'export'])->name('users.export');
-    Route::post('/users/import', [UserManagementController::class, 'import'])->name('users.import');
+    Route::get('/users', [AdminUserManagementController::class, 'index'])->name('users.index');
+    Route::get('/users/create', [AdminUserManagementController::class, 'create'])->name('users.create');
+    Route::post('/users', [AdminUserManagementController::class, 'store'])->name('users.store');
+    Route::get('/users/{user}', [AdminUserManagementController::class, 'show'])->name('users.show');
+    Route::get('/users/{user}/edit', [AdminUserManagementController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [AdminUserManagementController::class, 'update'])->name('users.update');
+    Route::delete('/users/{user}', [AdminUserManagementController::class, 'destroy'])->name('users.destroy');
+    Route::get('/users/export', [AdminUserManagementController::class, 'export'])->name('users.export');
+    Route::post('/users/import', [AdminUserManagementController::class, 'import'])->name('users.import');
 
     // إدارة المختصين
     Route::get('/specialists', [SpecialistController::class, 'index'])->name('specialists.index');
