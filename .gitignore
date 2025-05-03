@@ -1,6 +1,2 @@
 .env
 .DS_Store
-/public/.DS_Store
-/vendor/
-/node_modules/
-/error_log
