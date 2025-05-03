@@ -241,7 +241,8 @@
 <!-- Custom JS -->
 <script src="{{ asset('assets/js/admin.js') }}"></script>
 <script>
-    const notificationsUrl = "{{ route('notifications.count', auth()->id()) }}";
+    const notificationsUrl = "{{ route('admin.notifications.count') }}
+        ";
 </script>
 
 @yield('scripts')
