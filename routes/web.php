@@ -272,9 +272,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::get('/users/get', [AdminUserManagementController::class, 'get'])->name('users.get');
 
 
-
-
-
     // الإشعارات
     Route::get('/notifications/count', [NotificationController::class, 'count'])->name('notifications.count');
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
@@ -317,6 +314,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::delete('/specialists/{specialist}', [SpecialistController::class, 'destroy'])->name('specialists.destroy');
     Route::post('/specialists/status', [SpecialistController::class, 'updateStatus'])->name('specialists.update-status');
     Route::get('/specialists/get/specialist', [SpecialistController::class, 'getSpecialist'])->name('specialists.get');
+    Route::get('/specialists/export', [SpecialistController::class, 'export'])->name('specialists.export');
+    Route::post('/specialists/import', [SpecialistController::class, 'import'])->name('specialists.import');
+    Route::get('/specialists/download-template', [SpecialistController::class, 'downloadTemplate'])->name('specialists.download-template');
+    Route::post('/specialists/bulk-action', [SpecialistController::class, 'bulkAction'])->name('specialists.bulk-action');
 
     // إدارة الخدمات
     Route::get('/services', [AdminServiceController::class, 'index'])->name('services.index');
