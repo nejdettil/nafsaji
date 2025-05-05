@@ -252,6 +252,19 @@ Route::prefix("specialist")->name("specialist.")->middleware(["auth", "role:spec
 });
 // مسارات لوحة الإدارة
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
+    // إدارة فئات الخدمات
+    Route::resource('services/categories', ServiceCategoryController::class)->names([
+        'index' => 'services.categories.index',
+        'create' => 'services.categories.create',
+        'store' => 'services.categories.store',
+        'show' => 'services.categories.show',
+        'edit' => 'services.categories.edit',
+        'update' => 'services.categories.update',
+        'destroy' => 'services.categories.destroy',
+    ]);
+    Route::post('/packages/update-status', [AdminPackageController::class, 'updateStatus'])->name('packages.update-status');
+    Route::post('/packages/bulk-action', [AdminPackageController::class, 'bulkAction'])->name('packages.bulk-action');
+
     Route::get('/notifications/count', [App\Http\Controllers\Admin\NotificationController::class, 'count'])->name('admin.notifications.count');
     // لوحة التحكم الإدارية
     Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
@@ -263,7 +276,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::post('/users/bulk-action', [AdminUserManagementController::class, 'bulkAction'])->name('users.bulk-action');
     Route::get('/users/chart-data', [AdminUserManagementController::class, 'getChartData'])->name('users-chart-data');
     Route::post('/users/status', [AdminUserManagementController::class, 'updateStatus'])->name('users.update-status');
-    Route::get('/users', [AdminUserManagementController::class, 'index'])->name('users.index');
     Route::get('/users/create', [AdminUserManagementController::class, 'create'])->name('users.create');
     Route::post('/users', [AdminUserManagementController::class, 'store'])->name('users.store');
     Route::get('/users/{user}/edit', [AdminUserManagementController::class, 'edit'])->name('users.edit');
@@ -315,9 +327,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::post('/specialists/status', [SpecialistController::class, 'updateStatus'])->name('specialists.update-status');
     Route::get('/specialists/get/specialist', [SpecialistController::class, 'getSpecialist'])->name('specialists.get');
     Route::get('/specialists/export', [SpecialistController::class, 'export'])->name('specialists.export');
-    Route::post('/specialists/import', [SpecialistController::class, 'import'])->name('specialists.import');
+    Route::post('/specialists/import', [SpecialistController::class, 'import'])->name('admin.specialists.import');
     Route::get('/specialists/download-template', [SpecialistController::class, 'downloadTemplate'])->name('specialists.download-template');
     Route::post('/specialists/bulk-action', [SpecialistController::class, 'bulkAction'])->name('specialists.bulk-action');
+    Route::post('/specialists/import', [SpecialistController::class, 'import'])->name('specialists.import');
 
     // إدارة الخدمات
     Route::get('/services', [AdminServiceController::class, 'index'])->name('services.index');
@@ -328,16 +341,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::put('/services/{service}', [AdminServiceController::class, 'update'])->name('services.update');
     Route::delete('/services/{service}', [AdminServiceController::class, 'destroy'])->name('services.destroy');
 
-    // إدارة فئات الخدمات
-    Route::resource('services/categories', ServiceCategoryController::class)->names([
-        'index' => 'services.categories.index',
-        'create' => 'services.categories.create',
-        'store' => 'services.categories.store',
-        'show' => 'services.categories.show',
-        'edit' => 'services.categories.edit',
-        'update' => 'services.categories.update',
-        'destroy' => 'services.categories.destroy',
-    ]);
 
     // إدارة الحجوزات
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
@@ -348,6 +351,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::put('/bookings/{booking}', [BookingController::class, 'update'])->name('bookings.update');
     Route::delete('/bookings/{booking}', [BookingController::class, 'destroy'])->name('bookings.destroy');
     Route::put('/bookings/{booking}/status', [BookingController::class, 'updateStatus'])->name('bookings.update-status');
+    Route::get('/bookings/export', [BookingController::class, 'export'])->name('bookings.export');
+    Route::post('/bookings/{booking}/complete', [BookingController::class, 'markAsCompleted'])->name('bookings.complete');
+    Route::post('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
 
     // إدارة الجلسات
     Route::get('/sessions', [SessionController::class, 'index'])->name('sessions.index');
@@ -366,6 +372,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::get('/payments/{payment}/edit', [PaymentController::class, 'edit'])->name('payments.edit');
     Route::put('/payments/{payment}', [PaymentController::class, 'update'])->name('payments.update');
     Route::delete('/payments/{payment}', [PaymentController::class, 'destroy'])->name('payments.destroy');
+    Route::get('/payments/export', [PaymentController::class, 'export'])->name('payments.export');
+    Route::post('/payments/{payment}/refund', [PaymentController::class, 'refund'])->name('payments.refund');
+    Route::get('/payments/{payment}/invoice', [PaymentController::class, 'invoice'])->name('payments.invoice');
+    Route::get('/payments/{payment}/receipt', [PaymentController::class, 'receipt'])->name('payments.receipt');
 
     // إدارة المدونة - الفئات
     Route::get('/blog/categories', [BlogCategoryController::class, 'index'])->name('blog.categories.index');
@@ -410,6 +420,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::get('/packages/{package}/edit', [AdminPackageController::class, 'edit'])->name('packages.edit');
     Route::put('/packages/{package}', [AdminPackageController::class, 'update'])->name('packages.update');
     Route::delete('/packages/{package}', [AdminPackageController::class, 'destroy'])->name('packages.destroy');
+
+
 });
 // Fallback route for 404
 Route::fallback(function () {
