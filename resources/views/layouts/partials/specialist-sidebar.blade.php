@@ -14,14 +14,14 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('specialist.sessions') }}" class="nav-link {{ request()->routeIs('specialist.sessions*') ? 'active' : '' }}">
+    <a href="<a href="{{ route('specialist.sessions.index') }}" " class="nav-link {{ request()->routeIs('specialist.sessions*') ? 'active' : '' }}">
         <i class="fas fa-video"></i>
         <span>الجلسات</span>
     </a>
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('specialist.clients') }}" class="nav-link {{ request()->routeIs('specialist.clients*') ? 'active' : '' }}">
+    <a href="<a href="{{ route('specialist.clients.index') }}" " class="nav-link {{ request()->routeIs('specialist.clients*') ? 'active' : '' }}">
         <i class="fas fa-users"></i>
         <span>العملاء</span>
     </a>
@@ -56,7 +56,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('specialist.reports') }}" class="nav-link {{ request()->routeIs('specialist.reports*') ? 'active' : '' }}">
+    <a href="{{ route('specialist.reports.index') }}" class="nav-link {{ request()->routeIs('specialist.reports*') ? 'active' : '' }}">
         <i class="fas fa-chart-line"></i>
         <span>التقارير</span>
     </a>

@@ -197,7 +197,9 @@ Route::prefix("specialist")->name("specialist.")->middleware(["auth", "role:spec
     // لوحة التحكم
     Route::get("/", [SpecialistDashboardController::class, "index"])->name("dashboard");
     Route::get("/dashboard", [SpecialistDashboardController::class, "index"])->name("dashboard.index");
-    // Route::get("/analytics", [SpecialistDashboardController::class, "analytics"])->name("analytics"); // Covered by reports
+    Route::get("/analytics", [SpecialistDashboardController::class, "analytics"])->name("analytics"); // Covered by reports
+    Route::get('/appointments', [SpecialistAppointmentController::class, 'index'])->name('appointments');
+    Route::get('/sessions', [SpecialistSessionController::class, 'index'])->name('sessions');
 
     // الملف الشخصي
     Route::get("/profile", [SpecialistDashboardController::class, "profile"])->name("profile");
