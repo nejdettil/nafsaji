@@ -32,8 +32,6 @@ use App\Http\Controllers\User\UserDashboardController;
 use App\Http\Controllers\BookingController as UserBookingController;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\NotificationController; // General notification controller
-use App\Http\Controllers\Specialist\NotificationController as SpecialistNotificationController;
-use App\Http\Controllers\Admin\NotificationController as AdminNotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -125,7 +123,14 @@ Route::middleware(["auth"])->group(function () {
     Route::post("/profile/password", [ProfileController::class, "updatePassword"])->name("profile.update-password");
     Route::post("/profile/photo", [ProfileController::class, "updatePhoto"])->name("profile.update-photo");
     Route::get("/profile/delete-photo", [ProfileController::class, "deletePhoto"])->name("profile.delete-photo");
-    Route::post("/profile/notifications", [ProfileController::class, "updateNotifications"])->name("profile.update-notifications");
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/notifications/count', [NotificationController::class, 'count'])->name('notifications.count');
+    Route::get('/notifications/list', [NotificationController::class, 'list'])->name('notifications.list');
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.read-all');
+    Route::delete('/notifications/{id}', [NotificationController::class, 'delete'])->name('notifications.delete');
+    Route::delete('/notifications', [NotificationController::class, 'deleteAll'])->name('notifications.delete-all');
+
 });
 
 // مسارات الحجز العامة
@@ -149,21 +154,12 @@ Route::prefix("user")->name("user.")->middleware(["auth", "role:user"])->group(f
     Route::get("/settings", [UserDashboardController::class, "settings"])->name("settings");
     Route::post("/settings", [UserDashboardController::class, "updateSettings"])->name("settings.update");
 
-    // الإشعارات
-    Route::get("/notifications", [UserDashboardController::class, "notifications"])->name("notifications");
-    Route::post("/notifications/{id}/read", [UserDashboardController::class, "markNotificationAsRead"])->name("notification.read");
-    Route::post("/notifications/read-all", [UserDashboardController::class, "markAllNotificationsAsRead"])->name("notifications.read-all");
-    Route::delete("/notifications/{id}", [UserDashboardController::class, "deleteNotification"])->name("notification.delete");
-    Route::delete("/notifications", [UserDashboardController::class, "deleteAllNotifications"])->name("notifications.delete-all");
-    // Route::get("/notifications/count", [NotificationController::class, "count"])->name("notifications.count"); // Original conflicting route removed
-    // Route::get("/admin/notifications/count/{user}", function ($userId) { ... })->name("notifications.count"); // Original conflicting/misplaced route removed
-
     // الحجوزات
     Route::get("/bookings", [UserDashboardController::class, "bookings"])->name("bookings");
     Route::get("/bookings/{booking}", [UserDashboardController::class, "showBooking"])->name("bookings.show");
-    // Route::post("/bookings", [UserDashboardController::class, "storeBooking"])->name("bookings.store"); // Use general booking.store route
+    Route::post("/bookings", [UserDashboardController::class, "storeBooking"])->name("bookings.store"); // Use general booking.store route
     Route::delete("/bookings/{booking}", [UserDashboardController::class, "destroyBooking"])->name("bookings.destroy"); // User cancel booking
-    // Route::post("/bookings", [BookingController::class, "store"])->name("bookings.store"); // Original duplicate removed
+    Route::post("/bookings", [BookingController::class, "store"])->name("bookings.store"); // Original duplicate removed
 
     // المدفوعات
     Route::get("/payments", [UserDashboardController::class, "payments"])->name("payments");
@@ -246,10 +242,6 @@ Route::prefix("specialist")->name("specialist.")->middleware(["auth", "role:spec
     Route::get("/payments", [SpecialistDashboardController::class, "payments"])->name("payments"); // List payments related to specialist
     Route::get("/payments/{payment}", [SpecialistDashboardController::class, "showPayment"])->name("payments.show"); // Show payment details
 
-    // الإشعارات
-    Route::get("/notifications", [SpecialistNotificationController::class, "index"])->name("notifications.index");
-    Route::post("/notifications/{id}/read", [SpecialistNotificationController::class, "markAsRead"])->name("notifications.read");
-    Route::post("/notifications/read-all", [SpecialistNotificationController::class, "markAllAsRead"])->name("notifications.read-all");
 
 });
 // مسارات لوحة الإدارة
@@ -267,7 +259,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::post('/packages/update-status', [AdminPackageController::class, 'updateStatus'])->name('packages.update-status');
     Route::post('/packages/bulk-action', [AdminPackageController::class, 'bulkAction'])->name('packages.bulk-action');
 
-    Route::get('/notifications/count', [App\Http\Controllers\Admin\NotificationController::class, 'count'])->name('admin.notifications.count');
     // لوحة التحكم الإدارية
     Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -285,12 +276,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::delete('/users/{user}', [AdminUserManagementController::class, 'destroy'])->name('users.destroy');
     Route::get('/users/get', [AdminUserManagementController::class, 'get'])->name('users.get');
 
-
-    // الإشعارات
-    Route::get('/notifications/count', [NotificationController::class, 'count'])->name('notifications.count');
-    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
-    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
-    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.read-all');
 
     // التقارير
     Route::get('/reports', [ReportsController::class, 'index'])->name('reports.index');

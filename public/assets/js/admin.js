@@ -35,9 +35,6 @@
 
         // تفعيل التقويم
         initializeCalendar();
-
-        // تفعيل الإشعارات
-        initializeNotifications();
     });
 
     /**
@@ -598,104 +595,54 @@
             });
         }
     }
+    document.addEventListener('DOMContentLoaded', function () {
+        const countUrl = "/notifications/count";
+        const listUrl = "/notifications/list";
+        const countSpan = document.getElementById("notification-count");
+        const listContainer = document.getElementById("notification-items");
 
-    /**
-     * تفعيل الإشعارات
-     */
-    function initializeNotifications() {
-        // تفعيل الإشعارات إذا كانت مكتبة Toastr موجودة
-        if (typeof toastr !== 'undefined') {
-            // تعيين الخيارات الافتراضية
-            toastr.options = {
-                closeButton: true,
-                debug: false,
-                newestOnTop: true,
-                progressBar: true,
-                positionClass: 'toast-top-left',
-                preventDuplicates: false,
-                onclick: null,
-                showDuration: '300',
-                hideDuration: '1000',
-                timeOut: '5000',
-                extendedTimeOut: '1000',
-                showEasing: 'swing',
-                hideEasing: 'linear',
-                showMethod: 'fadeIn',
-                hideMethod: 'fadeOut'
-            };
-
-            // عرض الإشعارات المخزنة
-            if (window.adminNotifications && Array.isArray(window.adminNotifications)) {
-                window.adminNotifications.forEach(function(notification) {
-                    toastr[notification.type || 'info'](
-                        notification.message,
-                        notification.title || ''
-                    );
-                });
-            }
-        }
-
-        // تحديث عدد الإشعارات غير المقروءة
-        function updateNotificationCount() {
-            $.ajax({
-                url: window.location.origin + '/admin/notifications/count',
-                type: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    if (response.count > 0) {
-                        $('.notification-count').text(response.count).show();
-                    } else {
-                        $('.notification-count').text('0').hide();
-                    }
-                },
-                error: function(xhr) {
-                    console.error('خطأ في جلب عدد الإشعارات:', xhr);
+        // تحديث عدد الإشعارات
+        axios.get(countUrl)
+            .then(res => {
+                const count = res.data.count;
+                if (count > 0) {
+                    countSpan.textContent = count;
+                } else {
+                    countSpan.style.display = 'none';
                 }
+            })
+            .catch(err => {
+                console.warn('فشل جلب عدد الإشعارات', err);
             });
-        }
 
-        // تحديث عدد الإشعارات عند تحميل الصفحة
-        updateNotificationCount();
-
-        // تحديث عدد الإشعارات كل دقيقة
-        setInterval(updateNotificationCount, 60000);
-
-        // تحديث حالة الإشعارات عند النقر عليها
-        $('.notification-item').on('click', function() {
-            const notificationId = $(this).data('id');
-
-            if (notificationId) {
-                $.ajax({
-                    url: window.location.origin + `/admin/notifications/${notificationId}/read`,
-                    type: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function() {
-                        updateNotificationCount();
-                    }
-                });
-            }
-        });
-
-
-        // تحديث حالة جميع الإشعارات
-        $('.mark-all-read').on('click', function(e) {
-            e.preventDefault();
-
-            $.ajax({
-                url: window.location.origin + '/admin/notifications/read-all',
-                type: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function() {
-                    $('.notification-item').removeClass('unread');
-                    updateNotificationCount();
+        // تحميل قائمة الإشعارات
+        axios.get(listUrl)
+            .then(res => {
+                const notifications = res.data.notifications;
+                if (notifications.length === 0) {
+                    listContainer.innerHTML = `<p class="text-center text-muted py-3 mb-0">لا توجد إشعارات</p>`;
+                } else {
+                    listContainer.innerHTML = '';
+                    notifications.forEach(notification => {
+                        listContainer.innerHTML += `
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <div class="me-3">
+                                <div class="icon-circle bg-primary">
+                                    <i class="fas fa-info text-white"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="small text-gray-500">${notification.created_at}</div>
+                                ${notification.data.message ?? 'إشعار جديد'}
+                            </div>
+                        </a>`;
+                    });
                 }
+            })
+            .catch(err => {
+                console.warn('فشل تحميل الإشعارات', err);
             });
-        });
-    }
+    });
 
     // تنسيق الأرقام
     window.formatNumber = function(number, decimals = 0, decimalSeparator = '.', thousandsSeparator = ',') {

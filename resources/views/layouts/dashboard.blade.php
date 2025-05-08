@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}">
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
     @yield('styles')
 </head>
@@ -97,49 +97,22 @@
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
-                                <span class="badge badge-danger badge-counter">3+</span>
+                                <span class="badge badge-danger badge-counter" id="notification-count">0</span>
                             </a>
                             <div class="dropdown-list dropdown-menu dropdown-menu-end shadow animated--grow-in"
-                                 aria-labelledby="alertsDropdown">
+                                 aria-labelledby="alertsDropdown" id="notification-list">
                                 <h6 class="dropdown-header bg-primary text-white">
                                     الإشعارات
                                 </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="me-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-calendar-check text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">{{ date('d/m/Y') }}</div>
-                                        <span>حجز جديد #123</span>
-                                    </div>
+                                <div id="notification-items">
+                                    <p class="text-center text-muted py-3 mb-0">جاري التحميل...</p>
+                                </div>
+                                <a class="dropdown-item text-center small text-gray-500" href="{{ route('notifications.index') }}">
+                                    عرض كل الإشعارات
                                 </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="me-3">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-money-bill text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">{{ date('d/m/Y') }}</div>
-                                        تم تأكيد الدفع لحجز #456
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="me-3">
-                                        <div class="icon-circle bg-warning">
-                                            <i class="fas fa-star text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">{{ date('d/m/Y') }}</div>
-                                        تقييم جديد من العميل أحمد
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">عرض جميع الإشعارات</a>
                             </div>
                         </li>
+
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -241,9 +214,17 @@
 <!-- Custom JS -->
 <script src="{{ asset('assets/js/admin.js') }}"></script>
 <script>
-    const notificationsUrl = "{{ route('admin.notifications.count') }}
-        ";
+    let notificationsUrl = '';
+
+    @if(auth()->user()->hasRole('admin'))
+        notificationsUrl = @json(route('notifications.count'));
+    @elseif(auth()->user()->hasRole('specialist'))
+        notificationsUrl = @json(route('notifications.count'));
+    @else
+        notificationsUrl = @json(route('notifications.count'));
+    @endif
 </script>
+
 
 @yield('scripts')
 </body>
