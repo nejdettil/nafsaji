@@ -4,30 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8fad4945-24e8-41f9-8491-7748ccbbb405" name="Changes" comment="تحديث">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/NotificationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/NotificationController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Specialist/NotificationController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.bin/clean-orphaned-assets" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/clean-orphaned-assets" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.bin/detect-libc" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/detect-libc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.bin/esbuild" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/esbuild" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.bin/nanoid" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/nanoid" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.bin/rollup" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/rollup" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.bin/sass" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.bin/vite" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/vite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/assets/js/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/js/admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/login.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/register.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/specialist-dashboard.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/user-dashboard.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/dashboard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/dashboard.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/vite.config.js" afterDir="false" />
-    </list>
+    <list default="true" id="8fad4945-24e8-41f9-8491-7748ccbbb405" name="Changes" comment="تحديث" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -224,7 +201,7 @@
       <workItem from="1745580831522" duration="59744000" />
       <workItem from="1746274046628" duration="22721000" />
       <workItem from="1746463611116" duration="9785000" />
-      <workItem from="1746667301476" duration="3891000" />
+      <workItem from="1746667301476" duration="4192000" />
     </task>
     <task id="LOCAL؜-٠٠٠٠١" summary="Route::get('/notifications/count', [App\Http\Controllers\Admin\NotificationController::class, 'count'])-&gt;name('notifications.count');">
       <option name="closed" value="true" />
@@ -322,7 +299,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746667433433</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="تحديث">
+      <option name="closed" value="true" />
+      <created>1746671401676</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1746671401676</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
